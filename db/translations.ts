@@ -24,7 +24,6 @@ export const translations = {
       handmade: "হ্যান্ডমেড",
       designer: "ডিজাইনার",
       kids: "শিশুদের",
-      special: "বিশেষ অনুষ্ঠান",
     },
     // Common
     common: {
@@ -175,7 +174,6 @@ export const translations = {
       handmade: "Handmade",
       designer: "Designer",
       kids: "Kids",
-      special: "Special Occasions",
     },
     // Common
     common: {
@@ -301,7 +299,7 @@ export const translations = {
       handmadeCaps: "Handmade Caps",
       kidsCaps: "Kids Caps",
       contact: "Contact",
-      copyright: "© 2024 Bogura Jali Tupi. All rights reserved.",
+      copyright: "© 2025 Bogura Jali Tupi. All rights reserved.",
     },
   },
 };

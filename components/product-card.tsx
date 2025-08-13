@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Product } from "@/db/products";
 import { useLanguage } from "@/contexts/language-context";
+import { Product } from "@/interfaces/Product";
 
 interface ProductCardProps {
   product: Product;
@@ -13,6 +13,11 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { language, t } = useLanguage();
+
+  const displayCategory =
+    product.categories && product.categories.length > 0
+      ? product.categories[0][language]
+      : "";
 
   return (
     <Card className="group overflow-hidden">
@@ -55,7 +60,9 @@ export default function ProductCard({ product }: ProductCardProps) {
               {t("common.deliveryCharge")}: ৳{product.deliveryCharge}
             </p>
           </div>
-          <Badge variant="outline">{product.category[language]}</Badge>
+          {displayCategory && (
+            <Badge variant="outline">{displayCategory}</Badge>
+          )}
         </div>
       </CardContent>
 

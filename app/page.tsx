@@ -7,13 +7,9 @@ import Footer from "@/components/footer";
 import HeroCarousel from "@/components/hero-carousel";
 import CategoryFilter from "@/components/category-filter";
 import ProductCard from "@/components/product-card";
-import {
-  products,
-  getMostSellingProducts,
-  getProductsByCategory,
-  searchProducts,
-} from "@/db/products";
+import { products } from "@/db/products";
 import { useLanguage } from "@/contexts/language-context";
+import { getMostSellingProducts, getProductsByCategory, searchProducts } from "@/lib/helpers";
 
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState("");

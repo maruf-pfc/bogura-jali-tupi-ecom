@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
-import { products, getProductBySlug } from "@/db/products";
+import { products } from "@/db/products";
 import ProductDetailClient from "./product-detail-client";
+import { getProductBySlug } from "@/lib/helpers";
 
-// Generate static params for all product slugs
 export async function generateStaticParams() {
   return products.map((product) => ({
     slug: product.slug,

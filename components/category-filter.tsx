@@ -22,7 +22,6 @@ export default function CategoryFilter({
     "handmade",
     "designer",
     "kids",
-    "special",
   ];
 
   return (

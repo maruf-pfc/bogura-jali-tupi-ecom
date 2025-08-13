@@ -16,17 +16,19 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { products, searchProducts } from "@/db/products";
+import { products } from "@/db/products";
 import { useLanguage } from "@/contexts/language-context";
+import { searchProducts } from "@/lib/helpers";
+import { Product } from "@/interfaces/Product";
 
 export default function ProductsClientPage() {
   const searchParams = useSearchParams();
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [priceRange, setPriceRange] = useState([0, 1500]);
   const [sortBy, setSortBy] = useState("default");
   const [searchQuery, setSearchQuery] = useState("");
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const categoryKeys = [
     "all",
@@ -35,10 +37,10 @@ export default function ProductsClientPage() {
     "handmade",
     "designer",
     "kids",
-    "special",
   ];
 
   useEffect(() => {
+    // Initialize selectedCategory with the value from translations
     if (!selectedCategory) {
       setSelectedCategory(t("categories.all"));
     }
@@ -49,28 +51,35 @@ export default function ProductsClientPage() {
     const search = searchParams.get("search");
 
     if (category) {
-      setSelectedCategory(category);
+      // Find the matching category name from translations
+      const matchedCategory = categoryKeys
+        .map((key) => t(`categories.${key}`))
+        .find((name) => name.toLowerCase() === category.toLowerCase());
+      setSelectedCategory(matchedCategory || t("categories.all"));
     }
     if (search) {
       setSearchQuery(search);
     }
-  }, [searchParams]);
+  }, [searchParams, t, categoryKeys]);
 
   useEffect(() => {
-    let filtered = products;
+    let filtered: Product[] = products;
 
+    // Apply search query first
     if (searchQuery) {
       filtered = searchProducts(searchQuery);
     }
 
+    // Apply category filter
     if (selectedCategory !== t("categories.all")) {
-      filtered = filtered.filter(
-        (product) =>
-          product.category.bn === selectedCategory ||
-          product.category.en === selectedCategory
+      filtered = filtered.filter((product) =>
+        product.categories.some(
+          (cat) => cat.bn === selectedCategory || cat.en === selectedCategory
+        )
       );
     }
 
+    // Apply price range filter
     filtered = filtered.filter(
       (product) =>
         product.price >= priceRange[0] && product.price <= priceRange[1]
@@ -84,7 +93,9 @@ export default function ProductsClientPage() {
         filtered.sort((a, b) => b.price - a.price);
         break;
       case "name":
-        filtered.sort((a, b) => a.name.bn.localeCompare(b.name.bn));
+        filtered.sort((a, b) =>
+          a.name[language].localeCompare(b.name[language])
+        );
         break;
       case "popular":
         filtered.sort(
@@ -92,11 +103,12 @@ export default function ProductsClientPage() {
         );
         break;
       default:
+        // Default sort can be by ID or just maintain the original order
         break;
     }
 
     setFilteredProducts(filtered);
-  }, [selectedCategory, priceRange, sortBy, searchQuery, t]);
+  }, [selectedCategory, priceRange, sortBy, searchQuery, t, language]);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -104,7 +116,7 @@ export default function ProductsClientPage() {
 
   const clearFilters = () => {
     setSelectedCategory(t("categories.all"));
-    setPriceRange([0, 1000]);
+    setPriceRange([0, 1500]);
     setSortBy("default");
     setSearchQuery("");
   };
@@ -173,7 +185,7 @@ export default function ProductsClientPage() {
                       <Slider
                         value={priceRange}
                         onValueChange={setPriceRange}
-                        max={1000}
+                        max={1500}
                         min={0}
                         step={50}
                         className="w-full"
@@ -194,7 +206,7 @@ export default function ProductsClientPage() {
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    {filteredProducts.length} {t("home.productsFound")}
+                    {filteredProducts.length} {t("products.foundText")}
                   </p>
                   {searchQuery && (
                     <Badge variant="secondary" className="mt-1">

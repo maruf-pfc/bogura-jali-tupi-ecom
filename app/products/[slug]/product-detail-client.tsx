@@ -26,8 +26,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { products, Product } from "@/db/products";
+import { products } from "@/db/products";
 import { useLanguage } from "@/contexts/language-context";
+import { Product } from "@/interfaces/Product";
 
 interface ProductDetailClientProps {
   product: Product;
@@ -41,11 +42,16 @@ export default function ProductDetailClient({
   const [quantity, setQuantity] = useState(1);
 
   const relatedProducts = products
-    .filter(
-      (p) =>
-        p.category[language] === product.category[language] &&
-        p.id !== product.id
-    )
+    .filter((p) => {
+      return (
+        p.id !== product.id &&
+        p.categories.some((pCat) =>
+          product.categories.some(
+            (currentProdCat) => currentProdCat.en === pCat.en
+          )
+        )
+      );
+    })
     .slice(0, 4);
 
   const handleQuantityChange = (change: number) => {
@@ -128,7 +134,14 @@ ${
             <div className="space-y-6">
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <Badge variant="outline">{product.category[language]}</Badge>
+                  {/* Correctly display multiple categories */}
+                  <div className="flex flex-wrap gap-2">
+                    {product.categories.map((cat) => (
+                      <Badge key={cat.en} variant="outline">
+                        {cat[language]}
+                      </Badge>
+                    ))}
+                  </div>
                   <div className="flex items-center space-x-2">
                     <Button
                       variant="outline"
@@ -262,7 +275,7 @@ ${
               </div>
 
               {/* Action Buttons */}
-              {/* <div className="space-y-3">
+              <div className="space-y-3 cursor-not-allowed">
                 <Button
                   size="lg"
                   className="w-full cursor-pointer"
@@ -276,11 +289,11 @@ ${
                 <Button
                   variant="outline"
                   size="lg"
-                  className="w-full cursor-pointer"
+                  className="w-full cursor-not-allowed"
                 >
                   {t("common.addToCart")}
                 </Button>
-              </div> */}
+              </div>
 
               {/* Total Calculation */}
               <Card>

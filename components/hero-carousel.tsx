@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/language-context";
+import Link from "next/link";
 
 export default function HeroCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -16,21 +17,24 @@ export default function HeroCarousel() {
       id: 1,
       title: t("home.heroTitle1"),
       subtitle: t("home.heroSubtitle1"),
-      image: "/bangladeshi-caps.png",
+      image: "/slider/01.jpg",
+      url: "/products",
       cta: t("common.buyNow"),
     },
     {
       id: 2,
       title: t("home.heroTitle2"),
       subtitle: t("home.heroSubtitle2"),
-      image: "/bangladeshi-caps.png",
+      image: "/slider/02.jpg",
+      url: "/products",
       cta: t("common.viewCollection"),
     },
     {
       id: 3,
       title: t("home.heroTitle3"),
       subtitle: t("home.heroSubtitle3"),
-      image: "/bangladeshi-caps.png",
+      image: "/slider/03.jpg",
+      url: "/products",
       cta: t("common.viewOffer"),
     },
   ];
@@ -79,9 +83,11 @@ export default function HeroCarousel() {
                     {slide.title}
                   </h2>
                   <p className="text-muted-foreground mb-4">{slide.subtitle}</p>
-                  <Button size="lg" className="w-full cursor-pointer">
-                    {slide.cta}
-                  </Button>
+                  <Link href={slide.url}>
+                    <Button size="lg" className="w-full cursor-pointer">
+                      {slide.cta}
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             </div>

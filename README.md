@@ -73,7 +73,7 @@ Visit `http://localhost:3000` in your browser to see the app in action.
 
 ## ✅ To Do
 
-- [ ] Add real product data
+- [X] Add real product data
 - [ ] Add checkout and cart (future upgrade)
 - [ ] Integrate CMS or backend (optional)
 
