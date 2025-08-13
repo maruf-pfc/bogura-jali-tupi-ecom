@@ -206,7 +206,7 @@ export default function ProductsClientPage() {
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    {filteredProducts.length} {t("products.foundText")}
+                    {filteredProducts.length} Products Found
                   </p>
                   {searchQuery && (
                     <Badge variant="secondary" className="mt-1">

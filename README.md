@@ -19,6 +19,11 @@ A fully static, responsive, and SEO-optimized e-commerce website for showcasing 
 
 > Click Here: [https://bogura-jali-tupi.vercel.app](https://bogura-jali-tupi.vercel.app)
 
+![Carousel Slider](https://res.cloudinary.com/daqgkrypt/image/upload/v1755111708/01-min_ei945k.png)
+![Products Page](https://res.cloudinary.com/daqgkrypt/image/upload/v1755111708/02-min_kbgoam.png)
+![Product Details Page](https://res.cloudinary.com/daqgkrypt/image/upload/v1755111708/03-min_xtw9x6.png)
+![Related Products Part](https://res.cloudinary.com/daqgkrypt/image/upload/v1755111708/04-min_jzmhti.png)
+
 ## 📄 Pages Overview
 
 ### 🏠 Home
@@ -73,7 +78,7 @@ Visit `http://localhost:3000` in your browser to see the app in action.
 
 ## ✅ To Do
 
-- [X] Add real product data
+- [x] Add real product data
 - [ ] Add checkout and cart (future upgrade)
 - [ ] Integrate CMS or backend (optional)
 
